@@ -1,10 +1,11 @@
 require('dotenv').config({ path: 'config.env' });
 
-const Discord    = require('discord.js');
-const client     = new Discord.Client();
-const R6API      = require('r6api.js');
-const r6api      = new R6API(process.env.UPLAY_LOGIN, process.env.UPLAY_PASSWORD);
+const Discord      = require('discord.js');
+const client       = new Discord.Client();
+const R6API        = require('r6api.js');
+const r6api        = new R6API(process.env.UPLAY_LOGIN, process.env.UPLAY_PASSWORD);
 const msgTemplates = require('./messageTemplates');
+const logger       = require('./log');
 
 const botSecretToken = process.env.DISCORD_TOKEN;
 const possiblePlatforms = ['uplay', 'xbl', 'psn'];
@@ -75,8 +76,8 @@ let processCommand = (msg) => {
     let primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
     let args           = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
 
-    console.log("Command received: " + primaryCommand);
-    console.log("Arguments: " + args);
+    logger.info("Command received: " + primaryCommand);
+    logger.info("Arguments: " + args);
 
     switch(primaryCommand) {
         case 'help':
@@ -127,7 +128,7 @@ let badUsernameCommand = (msg, username) => {
 };
 
 client.on('ready', () => {
-    console.log("Connected as " + client.user.tag)
+    logger.info("Connected as " + client.user.tag)
 });
 
 client.on('message', (msg) => {
