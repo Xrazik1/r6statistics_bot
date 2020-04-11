@@ -1,6 +1,6 @@
 let wl = (wins, losses) => {
-   if (losses === 0) return wins;
-   return (wins / losses).toFixed(2);
+    if (losses === 0) return wins;
+    return (wins / losses).toFixed(2);
 };
 
 let kd = (kills, deaths) => {
@@ -9,7 +9,7 @@ let kd = (kills, deaths) => {
 };
 
 let playtime = (seconds) => {
-    return ((seconds / 60) / 60).toFixed(2)
+    return (seconds / 60 / 60).toFixed(2);
 };
 
 let headshotsPercent = (kills, headshots) => {
@@ -27,5 +27,5 @@ module.exports = {
     kd: kd,
     playtime: playtime,
     headshotsPercent: headshotsPercent,
-    killsPerMatch: killsPerMatch
+    killsPerMatch: killsPerMatch,
 };
