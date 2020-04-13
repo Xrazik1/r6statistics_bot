@@ -1,0 +1,3 @@
+{"message":"Unknown command ''","level":"error","service":"user-service"}
+{"message":"Platform 'up' is undefined","level":"error","service":"user-service"}
+{"message":"Username 'govno' is undefined","level":"error","service":"user-service"}
