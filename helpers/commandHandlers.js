@@ -5,10 +5,16 @@ const config = require("../config/config");
 const localization = require("../locales/locale");
 
 let processCommand = (msg) => {
-    let fullCommand = msg.content.toLowerCase().substr(4); // Remove the leading exclamation mark
+    let fullCommand = msg.content.substr(4); // Remove the leading exclamation mark
     let splitCommand = fullCommand.split(" "); // Split the message up in to pieces for each space
-    let primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
+    let primaryCommand = splitCommand[0].toLowerCase(); // The first word directly after the exclamation is the command
     let args = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
+
+    // Do not lowercase username
+    args.forEach((arg, i) => {
+        if(arg && i === 1) { return }
+        args[i] = arg.toLowerCase();
+    });
 
     logger.info("Command received: " + primaryCommand);
     logger.info("Arguments: " + args);
