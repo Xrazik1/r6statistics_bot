@@ -2,6 +2,7 @@ const msgTemplates = require("../helpers/messageTemplates");
 const logger = require("../logs/log");
 const r6stats = require("../modules/stats");
 const config = require("../config/config");
+const localization = require("../locales/locale");
 
 let processCommand = (msg) => {
     let fullCommand = msg.content.toLowerCase().substr(4); // Remove the leading exclamation mark
@@ -31,8 +32,9 @@ let processCommand = (msg) => {
 
 let helpCommand = (msg) => {
     let platformsString = config.POSSIBLE_PLATFORMS.join(" ");
+    let languagesString = localization.locales.join(" ");
 
-    msg.channel.send(msgTemplates.help(platformsString));
+    msg.channel.send(msgTemplates.help(platformsString, languagesString));
 };
 
 let statsCommand = (args, msg) => {
@@ -55,12 +57,9 @@ let statsCommand = (args, msg) => {
         return;
     }
 
-    let platform = args[0];
-    let username = args[1];
-
     r6stats.get(username, platform).then(
         (stats) => {
-            let embeds = msgTemplates.stats(stats, username);
+            let embeds = msgTemplates.stats(stats, username, locale);
 
             embeds.forEach((embed) => {
                 msg.channel.send(embed);

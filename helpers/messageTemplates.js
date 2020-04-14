@@ -1,14 +1,18 @@
-let help = (platforms) => {
-    return `Введите \`/r6 платформа имя\` для получения статистики \nСуществующие платформы \`${platforms}\``;
+let localization = require("../locales/locale");
+
+let helpersLocale = localization.get()["locale"];
+
+let help = (platforms, languages) => {
+    return helpersLocale.help(platforms, languages);
 };
 let badPlatform = (platform, platforms) => {
-    return `Такой платформы '${platform}' не существует, существующие платформы \`${platforms}\``;
+    return helpersLocale.badPlatform(platform, platforms);
 };
 let unknownCommand = (command) => {
-    return `Я не знаю такую команду '${command}'`;
+    return helpersLocale.unknownCommand(command);
 };
 let badUsername = (username) => {
-    return `Такого пользователя '${username}' не существует`;
+    return helpersLocale.badUsername(username);
 };
 
 let emptyUsername = () => {
@@ -30,7 +34,7 @@ let stats = (statsData, username, lang) => {
         {
             embed: {
                 color: 1935436,
-                title: "Общая статистика",
+                title: locale["general"],
                 thumbnail: {
                     url: statsData["rankImage"],
                 },
@@ -40,82 +44,82 @@ let stats = (statsData, username, lang) => {
                 },
                 fields: [
                     {
-                        name: "Уровень",
+                        name: locale["level"],
                         value: statsData["level"],
                         inline: true,
                     },
                     {
-                        name: "Время в игре",
+                        name: locale["timeInGame"],
                         value: `${statsData["playtime"]} часов`,
                         inline: true,
                     },
                     {
-                        name: "Процент хедшотов",
+                        name: locale["headshotsPercent"],
                         value: `${statsData["headshotsPercent"]}%`,
                         inline: true,
                     },
                     {
-                        name: "Матчей до след. ранга",
+                        name: locale["matchesToNextRank"],
                         value: statsData["nextRankMatchesNeeded"],
                         inline: true,
                     },
                     {
-                        name: "Текущий ранг",
+                        name: locale["currentRank"],
                         value: statsData["currentRank"],
                         inline: true,
                     },
                     {
-                        name: "Макс. ранг",
+                        name: locale["maxRank"],
                         value: statsData["maxRank"],
                         inline: true,
                     },
                     {
-                        name: "Текущий ммр",
+                        name: locale["currentMmr"],
                         value: statsData["currentMmr"],
                         inline: true,
                     },
                     {
-                        name: "Макс. ммр",
+                        name: locale["maxMmr"],
                         value: statsData["maxMmr"],
                         inline: true,
                     },
                     {
-                        name: "К/D",
+                        name: locale["kd"],
                         value: statsData["general"]["kd"],
                         inline: true,
                     },
                     {
-                        name: "W/L",
+                        name: locale["wl"],
                         value: statsData["general"]["wl"],
                         inline: true,
                     },
                     {
-                        name: "Ср. убийств в матч",
+                        name: locale["killsPerMatch"],
                         value: statsData["general"]["kills_per_match"],
                         inline: true,
                     },
                     {
-                        name: "Матчи",
+                        name: locale["matches"],
                         value: statsData["general"]["matches"],
                         inline: true,
                     },
                     {
-                        name: "Победы",
+                        name: locale["wins"],
                         value: statsData["general"]["wins"],
                         inline: true,
                     },
                     {
-                        name: "Поражения",
+                        name: locale["losses"],
                         value: statsData["general"]["losses"],
                         inline: true,
                     },
                     {
-                        name: "Убийства",
+                        name: locale["kills"],
                         value: statsData["general"]["kills"],
                         inline: true,
                     },
                     {
-                        name: "Смерти",
+                        name: locale["deaths"],
                         value: statsData["general"]["deaths"],
                         inline: true,
                     },
@@ -125,45 +129,45 @@ let stats = (statsData, username, lang) => {
         {
             embed: {
                 color: 1127128,
-                title: "Рейтинговая статистика",
+                title: locale["ranked"],
                 fields: [
                     {
-                        name: "К/D",
+                        name: locale["kd"],
                         value: statsData["ranked"]["kd"],
                         inline: true,
                     },
                     {
-                        name: "W/L",
+                        name: locale["wl"],
                         value: statsData["ranked"]["wl"],
                         inline: true,
                     },
                     {
-                        name: "Ср. убийств в матч",
+                        name: locale["killsPerMatch"],
                         value: statsData["ranked"]["kills_per_match"],
                         inline: true,
                     },
                     {
-                        name: "Матчи",
+                        name: locale["matches"],
                         value: statsData["ranked"]["matches"],
                         inline: true,
                     },
                     {
-                        name: "Победы",
+                        name: locale["wins"],
                         value: statsData["ranked"]["wins"],
                         inline: true,
                     },
                     {
-                        name: "Поражения",
+                        name: locale["losses"],
                         value: statsData["ranked"]["losses"],
                         inline: true,
                     },
                     {
-                        name: "Убийства",
+                        name: locale["kills"],
                         value: statsData["ranked"]["kills"],
                         inline: true,
                     },
                     {
-                        name: "Смерти",
+                        name: locale["deaths"],
                         value: statsData["ranked"]["deaths"],
                         inline: true,
                     },
@@ -178,45 +182,45 @@ let stats = (statsData, username, lang) => {
         {
             embed: {
                 color: 14177041,
-                title: "Статистика быстрой игры",
+                title: locale["casual"],
                 fields: [
                     {
-                        name: "К/D",
+                        name: locale["kd"],
                         value: statsData["casual"]["kd"],
                         inline: true,
                     },
                     {
-                        name: "W/L",
+                        name: locale["wl"],
                         value: statsData["casual"]["wl"],
                         inline: true,
                     },
                     {
-                        name: "Ср. убийств в матч",
+                        name: locale["killsPerMatch"],
                         value: statsData["casual"]["kills_per_match"],
                         inline: true,
                     },
                     {
-                        name: "Матчи",
+                        name: locale["matches"],
                         value: statsData["casual"]["matches"],
                         inline: true,
                     },
                     {
-                        name: "Победы",
+                        name: locale["wins"],
                         value: statsData["casual"]["wins"],
                         inline: true,
                     },
                     {
-                        name: "Поражения",
+                        name: locale["losses"],
                         value: statsData["casual"]["losses"],
                         inline: true,
                     },
                     {
-                        name: "Убийства",
+                        name: locale["kills"],
                         value: statsData["casual"]["kills"],
                         inline: true,
                     },
                     {
-                        name: "Смерти",
+                        name: locale["deaths"],
                         value: statsData["casual"]["deaths"],
                         inline: true,
                     },
@@ -236,5 +240,8 @@ module.exports = {
     badPlatform: badPlatform,
     unknownCommand: unknownCommand,
     badUsername: badUsername,
+    emptyCommand: emptyCommand,
+    emptyPlatform: emptyPlatform,
+    emptyUsername: emptyUsername,
     stats: stats,
 };
