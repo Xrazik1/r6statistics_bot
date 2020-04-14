@@ -4,13 +4,18 @@ const r6stats = require("../modules/stats");
 const config = require("../config/config");
 
 let processCommand = (msg) => {
-    let fullCommand = msg.content.substr(4); // Remove the leading exclamation mark
+    let fullCommand = msg.content.toLowerCase().substr(4); // Remove the leading exclamation mark
     let splitCommand = fullCommand.split(" "); // Split the message up in to pieces for each space
     let primaryCommand = splitCommand[0]; // The first word directly after the exclamation is the command
     let args = splitCommand.slice(1); // All other words are arguments/parameters/options for the command
 
     logger.info("Command received: " + primaryCommand);
     logger.info("Arguments: " + args);
+
+    if(!primaryCommand) {
+        emptyCommand(msg);
+        return;
+    }
 
     switch (primaryCommand) {
         case "help":
@@ -31,8 +36,22 @@ let helpCommand = (msg) => {
 };
 
 let statsCommand = (args, msg) => {
-    if (!config.POSSIBLE_PLATFORMS.includes(args[0])) {
-        badPlatformCommand(msg, args[0]);
+    let platform = args[0];
+    let username = args[1];
+    let locale   = args[2] || localization.defaultLocale;
+
+    if(!platform) {
+        emptyPlatform(msg);
+        return;
+    }
+
+    if(!username) {
+        emptyUsername(msg);
+        return;
+    }
+
+    if (!config.POSSIBLE_PLATFORMS.includes(platform)) {
+        badPlatformCommand(msg, platform);
         return;
     }
 
@@ -68,6 +87,21 @@ let badPlatformCommand = (msg, platform) => {
 let badUsernameCommand = (msg, username) => {
     logger.error(`Username '${username}' is undefined`);
     msg.channel.send(msgTemplates.badUsername(username));
+};
+
+let emptyCommand = (msg) => {
+    logger.error("Command wasn't passed");
+    msg.channel.send(msgTemplates.emptyCommand());
+};
+
+let emptyPlatform = (msg) => {
+    logger.error("Platform wasn't passed");
+    msg.channel.send(msgTemplates.emptyPlatform());
+};
+
+let emptyUsername = (msg) => {
+    logger.error("Username wasn't passed");
+    msg.channel.send(msgTemplates.emptyUsername());
 };
 
 module.exports = {

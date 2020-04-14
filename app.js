@@ -12,7 +12,7 @@ client.on("message", (msg) => {
     // Prevent bot from responding to its own messages
     if (msg.author === client.user) return;
 
-    if (msg.content.startsWith("/r6")) {
+    if (msg.content.toLowerCase().startsWith("/r6")) {
         commandHandlers.processCommand(msg);
     }
 });

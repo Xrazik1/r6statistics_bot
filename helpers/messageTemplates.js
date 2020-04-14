@@ -11,7 +11,21 @@ let badUsername = (username) => {
     return `Такого пользователя '${username}' не существует`;
 };
 
-let stats = (statsData, username) => {
+let emptyUsername = () => {
+    return helpersLocale.emptyUsername();
+};
+
+let emptyPlatform = () => {
+    return helpersLocale.emptyPlatform();
+};
+
+let emptyCommand = () => {
+    return helpersLocale.emptyCommand();
+};
+
+let stats = (statsData, username, lang) => {
+    locale = localization.get(lang)["locale"];
+
     return [
         {
             embed: {
