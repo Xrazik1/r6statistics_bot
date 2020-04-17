@@ -32,6 +32,7 @@ let stats = (statsData, username, lang) => {
 
     return [
         {
+            content: locale["header"],
             embed: {
                 color: 1935436,
                 title: locale["general"],
@@ -229,7 +230,7 @@ let stats = (statsData, username, lang) => {
                         value: "-----------",
                         inline: true,
                     },
-                ],
+                ]
             },
         },
     ];

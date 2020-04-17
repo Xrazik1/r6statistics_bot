@@ -12,6 +12,9 @@ const locale = {
     emptyUsername: () => "Player's username is required",
     emptyCommand: () => "You didn't pass the command, help `/r6 help`",
 
+    header: "The language and the username were linked to your Discord account, " +
+        "just send `/r6 stats` next time to see your statistics",
+
     general: "General",
     ranked: "Ranked",
     casual: "Casual",
