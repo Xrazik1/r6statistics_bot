@@ -3,8 +3,9 @@ const logger = require("../logs/log");
 const r6stats = require("../modules/stats");
 const config = require("../config/config");
 const localization = require("../locales/locale");
+const server = require("../db/server");
 
-let processCommand = (msg) => {
+let processCommand = async (msg) => {
     let fullCommand = msg.content.substr(4); // Remove the leading exclamation mark
     let splitCommand = fullCommand.split(" "); // Split the message up in to pieces for each space
     let primaryCommand = splitCommand[0].toLowerCase(); // The first word directly after the exclamation is the command
@@ -29,7 +30,7 @@ let processCommand = (msg) => {
             helpCommand(msg);
             break;
         case "stats":
-            statsCommand(args, msg);
+            await statsCommand(args, msg);
             break;
         default:
             unknownCommand(msg, fullCommand);
@@ -43,10 +44,16 @@ let helpCommand = (msg) => {
     msg.channel.send(msgTemplates.help(platformsString, languagesString));
 };
 
-let statsCommand = (args, msg) => {
-    let platform = args[0];
-    let username = args[1];
-    let locale   = args[2] || localization.defaultLocale;
+let statsCommand = async (args, msg) => {
+    let userParameters = await server.getUserParameters(msg.author.id);
+
+    let username = userParameters.username;
+    let platform = userParameters.platform;
+    let lang = userParameters.lang;
+
+    platform = args[0] || platform;
+    username = args[1] || username;
+    lang     = args[2] || lang || localization.defaultLocale;
 
     if(!platform) {
         emptyPlatform(msg);
@@ -64,8 +71,10 @@ let statsCommand = (args, msg) => {
     }
 
     r6stats.get(username, platform).then(
-        (stats) => {
-            let embeds = msgTemplates.stats(stats, username, locale);
+        async (stats) => {
+            let embeds = msgTemplates.stats(stats, username, lang);
+
+            await server.saveMessageParameters(msg.author.id, username, lang, platform);
 
             embeds.forEach((embed) => {
                 msg.channel.send(embed);
