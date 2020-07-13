@@ -4,6 +4,7 @@ Discord bot for viewing Rainbow Six Siege player's statistic
 # Languages
 
 1. Russian
+2. English
 
 # Usage
 
